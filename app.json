@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "PPS-juego-de-ninos",
-    "slug": "PPS-juego-de-ninos",
+    "name": "PPS-relevamiento-visual",
+    "slug": "PPS-relevamiento-visual",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F4900C"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,7 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#F4900C"
       },
       "package": "com.ytrodi.PPSApp2"
     },

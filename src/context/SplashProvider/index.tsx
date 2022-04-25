@@ -1,56 +1,98 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import { Headline } from 'react-native-paper';
-import AnimatedLottieView from 'lottie-react-native';
+
+import * as SplashScreen from 'expo-splash-screen';
 import Constants from 'expo-constants';
-import { useFadeAnim } from '../../hooks';
-import { BASE_FADE_ANIMATION_TIME } from '../../hooks/useFadeAnim';
-import lottieSource from '../../../assets/lottie/lottie-video-game-console.json';
+import AppLoading from 'expo-app-loading';
+import { Asset } from 'expo-asset';
 
-const defaultBackgroundColor = '#ffffff';
+import { useFadeAnimation } from '../../hooks';
+import { BASE_FADE_ANIMATION_TIME } from '../../hooks/useFadeAnimation';
 
-function SplashProvider({ children }: { children: React.ReactNode }) {
-  const fadeAnimation = useFadeAnim();
-  const [appIsReady, setAppIsReady] = useState(false);
+const defaultBackgroundColor = '#F4900C';
+const defaultResizeMode = 'contain';
+const sourceIcon = require('../../../assets/images/icon.png');
+
+SplashScreen.preventAutoHideAsync().catch(console.error);
+
+interface Props {
+  children: React.ReactNode;
+}
+
+function AnimatedAppLoader(props: Props) {
+  const [isSplashReady, setIsSplashReady] = useState(false);
+
+  const startAsync = useCallback(
+    () => Asset.fromModule(sourceIcon).downloadAsync(),
+    [sourceIcon]
+  );
+
+  const onFinish = useCallback(async () => {
+    setIsSplashReady(true);
+    await SplashScreen.hideAsync();
+  }, []);
+
+  if (!isSplashReady) {
+    return (
+      <AppLoading
+        autoHideSplash={false}
+        startAsync={startAsync}
+        onError={console.error}
+        onFinish={onFinish}
+      />
+    );
+  }
+
+  return <AnimatedSplashScreen {...props} />;
+}
+
+function AnimatedSplashScreen({ children }: Props) {
+  const fadeAnimation = useFadeAnimation();
+  const [isAppReady, setAppReady] = useState(false);
   const [isSplashAnimationComplete, setIsSplashAnimationComplete] =
     useState(false);
 
   useEffect(() => {
-    if (appIsReady) {
+    if (isAppReady) {
       setIsSplashAnimationComplete(true);
     }
-  }, [appIsReady]);
+  }, [isAppReady]);
 
-  useEffect(() => {
-    fadeAnimation.show();
+  const onLoadStart = useCallback(() => fadeAnimation.show(), []);
+  const onLoadEnd = useCallback(() => {
+    setTimeout(async () => {
+      try {
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        fadeAnimation.hide(({ finished }) => finished && setAppReady(true));
+      }
+    }, BASE_FADE_ANIMATION_TIME);
   }, []);
 
   return (
     <View style={styles.container}>
-      {appIsReady && children}
+      {isAppReady && children}
       {!isSplashAnimationComplete && (
-        <View style={styles.splash}>
+        <Animated.View
+          style={[StyleSheet.absoluteFill, styles.splashContainer]}
+        >
           <Animated.View style={fadeAnimation.style}>
-            <Headline style={styles.title}>Rodi Yago</Headline>
+            <Headline style={styles.splashText}>Rodi Yago</Headline>
           </Animated.View>
-          <View style={styles.lottieContainer}>
-            <AnimatedLottieView
-              source={lottieSource}
-              autoPlay
-              loop={false}
-              duration={BASE_FADE_ANIMATION_TIME * 2}
-              onAnimationFinish={() => {
-                fadeAnimation.hide();
-                setTimeout(() => {
-                  setAppIsReady(true);
-                }, BASE_FADE_ANIMATION_TIME);
-              }}
-            />
-          </View>
+          <Animated.Image
+            source={sourceIcon}
+            onLoadStart={onLoadStart}
+            onLoadEnd={onLoadEnd}
+            fadeDuration={0}
+            style={{ ...styles.splashImage, ...fadeAnimation.style }}
+          />
           <Animated.View style={fadeAnimation.style}>
-            <Headline style={styles.title}>División 4B</Headline>
+            <Headline style={styles.splashText}>División 4B</Headline>
           </Animated.View>
-        </View>
+        </Animated.View>
       )}
     </View>
   );
@@ -60,18 +102,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  splash: {
+  splashContainer: {
     flex: 1,
     justifyContent: 'space-around',
+    alignItems: 'center',
     backgroundColor:
       Constants.manifest?.splash?.backgroundColor || defaultBackgroundColor,
   },
-  title: {
+  splashText: {
     textAlign: 'center',
   },
-  lottieContainer: {
-    height: 300,
+  splashImage: {
+    width: 100,
+    height: 100,
+    resizeMode: Constants?.manifest?.splash?.resizeMode || defaultResizeMode,
   },
 });
 
-export default SplashProvider;
+export default AnimatedAppLoader;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import SplashProvider from './SplashProvider';
+import AnimatedAppLoader from './SplashProvider';
 import ToastProvider from './ToastProvider';
 import ThemeProvider from './ThemeProvider';
 import { AuthProvider } from './AuthProvider';
 
 const AppProviders: React.FC = ({ children }) => {
   return (
-    <SplashProvider>
+    <AnimatedAppLoader>
       <SafeAreaProvider>
         <NavigationContainer>
           <ToastProvider>
@@ -18,7 +18,7 @@ const AppProviders: React.FC = ({ children }) => {
           </ToastProvider>
         </NavigationContainer>
       </SafeAreaProvider>
-    </SplashProvider>
+    </AnimatedAppLoader>
   );
 };
 
