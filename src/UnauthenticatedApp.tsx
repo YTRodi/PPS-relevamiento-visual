@@ -1,15 +1,8 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { TextInput, Button, Paragraph, Caption } from 'react-native-paper';
-import { useToast } from 'react-native-toast-notifications';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useAuth } from './context/AuthProvider';
-import { useAsync, useToggle } from './hooks';
-import { GameBlock, HardcodedPersons } from './components';
-import { mapAuthError } from './helpers';
-import { theme } from './styles';
+import { Body1, Flex, Sub1 } from './components';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+// eslint-disable-next-line no-unused-vars
 const AuthSchema = Yup.object().shape({
   email: Yup.string()
     .email('Correo electrónico inválido')
@@ -19,203 +12,135 @@ const AuthSchema = Yup.object().shape({
     .required('La contraseña es obligatoria'),
 });
 
-const initialValues = { email: '', password: '' };
-const errorColor = theme.colors.error;
-const focusColor = theme.colors.primary;
-const noFocusColor = theme.colors.placeholder;
-
 function UnauthenticatedApp() {
-  const { login, register } = useAuth();
-  const { isLoading, isError, error, run } = useAsync();
-  const toast = useToast();
-  const [isLoginScreen, setIsLoginScreen] = useToggle(true);
-  const [hidePassword, toggleHidePassword] = useToggle(true);
-  const {
-    values: formValues,
-    errors: formErrors,
-    touched,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    isValidating,
-    isValid,
-    resetForm,
-    setValues,
-  } = useFormik({
-    initialValues,
-    validationSchema: AuthSchema,
-    onSubmit: formValues =>
-      isLoginScreen ? run(login(formValues)) : run(register(formValues)),
-  });
-
-  useEffect(() => {
-    if (isError) {
-      const errorMessage = mapAuthError(error);
-      toast.show(errorMessage, { type: 'danger' });
-    }
-  }, [isError, error]);
-
-  const label = useMemo(
-    () => (isLoginScreen ? 'LOGIN' : 'REGISTRO'),
-    [isLoginScreen]
-  );
-
-  const getInputEmailIconColor = useCallback(
-    (isFocused: boolean) => getInputIconColor('email', isFocused),
-    [formErrors, touched]
-  );
-
-  const getInputPasswordIconColor = useCallback(
-    (isFocused: boolean) => getInputIconColor('password', isFocused),
-    [formErrors, touched]
-  );
-
-  const getInputIconColor = useCallback(
-    (field: keyof typeof initialValues, isFocused: boolean) => {
-      return formErrors[field] && touched[field]
-        ? errorColor
-        : isFocused
-        ? focusColor
-        : noFocusColor;
-    },
-    [formErrors, touched]
-  );
-
-  const renderHeader = useCallback(() => {
-    const splittedLabel = label.split('');
-    return splittedLabel.map((char, index) => (
-      <View key={index} style={{ marginRight: 4 }}>
-        <GameBlock key={index} text={char} />
-      </View>
-    ));
-  }, [isLoginScreen]);
-
-  function reset() {
-    setIsLoginScreen();
-    resetForm();
-  }
+  const { top } = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../assets/images/background.png')}
-        style={styles.backgroundImage}
-      />
+    <Flex direction='column' css={{ flex: 1, pt: top }}>
+      <Flex direction='column' align='center' css={{ mt: 52 }}>
+        <Sub1 css={{ mb: '$1' }}>Bienvenido a</Sub1>
+        <Sub1>Relevamiento Visual App</Sub1>
+        <Sub1>ICONO</Sub1>
+      </Flex>
 
-      <View style={styles.headerContainer}>{renderHeader()}</View>
+      <Flex direction='column' css={{ bc: '$red6', mh: '$4', mt: 56 }}>
+        <Sub1 weight='bold'>Log In</Sub1>
+        <Sub1 weight='bold' css={{ mt: '$6', borderWidth: 1, height: 48 }}>
+          Input 1
+        </Sub1>
+        <Sub1 weight='bold' css={{ mt: '$2', borderWidth: 1, height: 48 }}>
+          Input 2
+        </Sub1>
+      </Flex>
 
-      <View style={styles.formGroup}>
-        <TextInput
-          mode='outlined'
-          keyboardType='email-address'
-          returnKeyType='next'
-          autoComplete={false}
-          autoCapitalize='none'
-          label='Correo electrónico'
-          placeholder='Correo electrónico'
-          value={formValues.email}
-          onChangeText={handleChange('email')}
-          onBlur={handleBlur('email')}
-          left={<TextInput.Icon name='email' color={getInputEmailIconColor} />}
-          error={Boolean(formErrors.email && touched.email)}
-        />
-        {formErrors.email && touched.email && (
-          <Paragraph style={styles.textError}>{formErrors.email}</Paragraph>
-        )}
-      </View>
+      <Flex justify='center' css={{ mt: '$6', borderWidth: 1 }}>
+        <Sub1 weight='bold' css={{ borderWidth: 1, height: 48 }}>
+          Iniciar sesión
+        </Sub1>
+      </Flex>
 
-      <View style={styles.formGroup}>
-        <TextInput
-          mode='outlined'
-          secureTextEntry={hidePassword}
-          autoComplete={false}
-          autoCapitalize='none'
-          label='Contraseña'
-          placeholder='Contraseña'
-          value={formValues.password}
-          onChangeText={handleChange('password')}
-          onBlur={handleBlur('password')}
-          left={
-            <TextInput.Icon name='lock' color={getInputPasswordIconColor} />
-          }
-          right={
-            <TextInput.Icon
-              name={hidePassword ? 'eye' : 'eye-off'}
-              onPress={toggleHidePassword}
-              color={getInputPasswordIconColor}
-            />
-          }
-          error={Boolean(formErrors.password && touched.password)}
-        />
-        {formErrors.password && touched.password && (
-          <Paragraph style={styles.textError}>{formErrors.password}</Paragraph>
-        )}
-      </View>
-
-      <Button
-        style={styles.button}
-        mode='contained'
-        disabled={isLoading || isValidating || !isValid}
-        loading={isLoading || isValidating}
-        onPress={handleSubmit}
+      <Flex
+        direction='column'
+        align='center'
+        css={{ flex: 1, mt: 88, bc: '$blue6' }}
       >
-        {isLoginScreen ? 'Iniciar sesión' : 'Registrarse'}
-      </Button>
+        <Body1>Iniciar sesión como</Body1>
+        <Flex css={{ borderWidth: 1, borderColor: 'red', mt: '$4' }}>
+          <Sub1 css={{ borderWidth: 1, p: 10 }}>Scott</Sub1>
+          <Sub1 css={{ borderWidth: 1, p: 10, mh: 16 }}>Maggie</Sub1>
+          <Sub1 css={{ borderWidth: 1, p: 10 }}>Luna</Sub1>
+        </Flex>
+      </Flex>
 
-      <View style={styles.captionContainer}>
-        <Caption>
-          {isLoginScreen ? '¿No tienes cuenta?' : '¿Ya tienes una cuenta?'}{' '}
-          <Caption style={styles.captionText} onPress={reset}>
-            {isLoginScreen ? 'Regístrate!' : 'Inicia sesión!'}
-          </Caption>
-        </Caption>
-      </View>
-
-      <HardcodedPersons
-        onSelectPerson={person =>
-          setValues({ email: person.email, password: person.password })
-        }
-      />
-    </View>
+      {/* <Flex justify='center'>
+        <Body1>No tienes cuenta? Regístrate!</Body1>
+      </Flex> */}
+    </Flex>
   );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'white',
-    paddingHorizontal: 16,
-  },
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    opacity: 0.1,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    marginBottom: 8,
-  },
-  textError: {
-    color: theme.colors.error,
-  },
-  formGroup: {
-    marginBottom: 16,
-  },
-  button: {
-    marginTop: 4,
-  },
-  captionContainer: {
-    marginTop: 8,
-    marginBottom: 40,
-  },
-  captionText: {
-    color: theme.colors.accent,
-    fontWeight: 'bold',
-  },
-});
+  // return (
+  //   <View style={styles.container}>
+  //     <Image
+  //       source={require('../assets/images/background.png')}
+  //       style={styles.backgroundImage}
+  //     />
+
+  //     <View style={styles.headerContainer}>{renderHeader()}</View>
+
+  //     <View style={styles.formGroup}>
+  //       <TextInput
+  //         mode='flat'
+  //         keyboardType='email-address'
+  //         returnKeyType='next'
+  //         autoComplete={false}
+  //         autoCapitalize='none'
+  //         label='Correo electrónico'
+  //         placeholder='Correo electrónico'
+  //         value={formValues.email}
+  //         onChangeText={handleChange('email')}
+  //         onBlur={handleBlur('email')}
+  //         left={<TextInput.Icon name='email' color={getInputEmailIconColor} />}
+  //         error={Boolean(formErrors.email && touched.email)}
+  //       />
+  //       {formErrors.email && touched.email && (
+  //         <Paragraph style={styles.textError}>{formErrors.email}</Paragraph>
+  //       )}
+  //     </View>
+
+  //     <View style={styles.formGroup}>
+  //       <TextInput
+  //         mode='outlined'
+  //         secureTextEntry={hidePassword}
+  //         autoComplete={false}
+  //         autoCapitalize='none'
+  //         label='Contraseña'
+  //         placeholder='Contraseña'
+  //         value={formValues.password}
+  //         onChangeText={handleChange('password')}
+  //         onBlur={handleBlur('password')}
+  //         left={
+  //           <TextInput.Icon name='lock' color={getInputPasswordIconColor} />
+  //         }
+  //         right={
+  //           <TextInput.Icon
+  //             name={hidePassword ? 'eye' : 'eye-off'}
+  //             onPress={toggleHidePassword}
+  //             color={getInputPasswordIconColor}
+  //           />
+  //         }
+  //         error={Boolean(formErrors.password && touched.password)}
+  //       />
+  //       {formErrors.password && touched.password && (
+  //         <Paragraph style={styles.textError}>{formErrors.password}</Paragraph>
+  //       )}
+  //     </View>
+
+  //     <Button
+  //       style={styles.button}
+  //       mode='contained'
+  //       disabled={isLoading || isValidating || !isValid}
+  //       loading={isLoading || isValidating}
+  //       onPress={handleSubmit}
+  //     >
+  //       {isLoginScreen ? 'Iniciar sesión' : 'Registrarse'}
+  //     </Button>
+
+  //     <View style={styles.captionContainer}>
+  //       <Caption>
+  //         {isLoginScreen ? '¿No tienes cuenta?' : '¿Ya tienes una cuenta?'}{' '}
+  //         <Caption style={styles.captionText} onPress={reset}>
+  //           {isLoginScreen ? 'Regístrate!' : 'Inicia sesión!'}
+  //         </Caption>
+  //       </Caption>
+  //     </View>
+
+  //     <HardcodedPersons
+  //       onSelectPerson={person =>
+  //         setValues({ email: person.email, password: person.password })
+  //       }
+  //     />
+  //   </View>
+  // );
+}
 
 export default UnauthenticatedApp;

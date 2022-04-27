@@ -1,7 +1,5 @@
 import { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Paragraph } from 'react-native-paper';
-import GameBlock from '../GameBlock';
+import { StyleSheet, Text, View } from 'react-native';
 import Separator from '../Separator';
 
 interface Person {
@@ -42,17 +40,13 @@ const HardcodedPersons = ({ onSelectPerson }: Props) => {
     <View>
       <View style={styles.textContainer}>
         <Separator />
-        <Paragraph style={styles.text}>inicia sesión como</Paragraph>
+        <Text style={styles.text}>inicia sesión como</Text>
         <Separator />
       </View>
 
       <View style={styles.buttonContainer}>
         {persons.map((person, index) => (
-          <GameBlock
-            key={index}
-            text={person.name}
-            onPress={() => onSelectPerson(person)}
-          />
+          <Text key={index}>{person.name}</Text>
         ))}
       </View>
     </View>

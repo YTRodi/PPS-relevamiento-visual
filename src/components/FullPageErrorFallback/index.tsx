@@ -1,6 +1,4 @@
-import { StyleSheet, View } from 'react-native';
-import { Caption, Colors, Subheading, Title } from 'react-native-paper';
-import IconButton from '../IconButton';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface Props {
   error: Error | null;
@@ -10,14 +8,15 @@ function FullPageErrorFallback({ error }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <IconButton
+        {/* <IconButton
           icon='alert-circle-outline'
           size={50}
           color={Colors.red400}
-        />
-        <Title>Oh oh... hubo un problema.</Title>
-        <Subheading>Intenta recargar la app.</Subheading>
-        <Caption style={styles.errorDetail}>{error?.message}</Caption>
+        /> */}
+        {/* TODO: add alert icon */}
+        <Text>Oh oh... hubo un problema.</Text>
+        <Text>Intenta recargar la app.</Text>
+        <Text style={styles.errorDetail}>{error?.message}</Text>
       </View>
     </View>
   );

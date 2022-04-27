@@ -1,5 +1,5 @@
-import { ScrollView, View, StyleSheet } from 'react-native';
-import { Title, Paragraph, Button } from 'react-native-paper';
+/* eslint-disable no-unused-vars */
+import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToast } from 'react-native-toast-notifications';
 import { FullPageSpinner } from '../../components';
@@ -25,16 +25,17 @@ function Home() {
   return (
     <ScrollView style={{ paddingBottom: bottom }}>
       <View style={styles.container}>
-        <Title>Información del usuario:</Title>
-        <Paragraph>{JSON.stringify(user?.providerData, null, 2)}</Paragraph>
-        <Button
+        <Text>Información del usuario:</Text>
+        <Text>{JSON.stringify(user?.providerData, null, 2)}</Text>
+        {/* TODO: pending implementation of Button component */}
+        {/* <Button
           mode='contained'
           onPress={() => run(logout())}
           disabled={isLoading}
           loading={isLoading}
         >
           Salir
-        </Button>
+        </Button> */}
       </View>
     </ScrollView>
   );

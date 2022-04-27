@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
-import { Headline } from 'react-native-paper';
+import { Animated, StyleSheet, View, Text } from 'react-native';
 
 import * as SplashScreen from 'expo-splash-screen';
 import Constants from 'expo-constants';
@@ -80,7 +79,7 @@ function AnimatedSplashScreen({ children }: Props) {
           style={[StyleSheet.absoluteFill, styles.splashContainer]}
         >
           <Animated.View style={fadeAnimation.style}>
-            <Headline style={styles.splashText}>Rodi Yago</Headline>
+            <Text style={styles.splashText}>Rodi Yago</Text>
           </Animated.View>
           <Animated.Image
             source={sourceIcon}
@@ -90,7 +89,7 @@ function AnimatedSplashScreen({ children }: Props) {
             style={{ ...styles.splashImage, ...fadeAnimation.style }}
           />
           <Animated.View style={fadeAnimation.style}>
-            <Headline style={styles.splashText}>División 4B</Headline>
+            <Text style={styles.splashText}>División 4B</Text>
           </Animated.View>
         </Animated.View>
       )}

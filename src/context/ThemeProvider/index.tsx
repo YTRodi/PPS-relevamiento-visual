@@ -1,9 +1,8 @@
 import React from 'react';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { theme } from '../../styles';
+import { ThemeProvider as TP, theme } from '../../../stitches.config';
 
 const ThemeProvider: React.FC = ({ children }) => {
-  return <PaperProvider theme={theme}>{children}</PaperProvider>;
+  return <TP theme={theme}>{children}</TP>;
 };
 
 export default ThemeProvider;

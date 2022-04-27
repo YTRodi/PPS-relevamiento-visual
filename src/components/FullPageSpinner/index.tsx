@@ -1,15 +1,16 @@
-import { View, StyleSheet, Text } from 'react-native';
-import { ActivityIndicator, Colors } from 'react-native-paper';
+import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
 
 interface Props {
   title?: string;
-  color?: keyof typeof Colors;
 }
 
-function FullPageSpinner({ title, color }: Props) {
+function FullPageSpinner({ title }: Props) {
   return (
+    // TODO: implement Flex component.
+    // TODO: implement Flex component.
+    // TODO: implement Flex component.
     <View style={styles.container}>
-      <ActivityIndicator size='large' animating color={color} />
+      <ActivityIndicator animating />
       {title && <Text style={styles.title}>{title}</Text>}
     </View>
   );
