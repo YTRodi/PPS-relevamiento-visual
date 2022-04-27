@@ -95,6 +95,13 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
         '9xl': 56,
         '10xl': 60,
       },
+      radii: {
+        xs: 4,
+        s: 6,
+        m: 8,
+        l: 12,
+        pill: 1000,
+      },
     },
     utils: {
       shadow: (level: 'small' | 'medium' | 'large') => {
