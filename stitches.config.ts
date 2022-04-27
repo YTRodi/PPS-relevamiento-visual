@@ -10,6 +10,7 @@ import {
 } from '@radix-ui/colors';
 import { createStitches } from 'stitches-native';
 import type * as Stitches from 'stitches-native';
+export type { VariantProps } from 'stitches-native';
 
 export const { styled, config, useTheme, ThemeProvider, theme, css } =
   createStitches({
@@ -19,6 +20,61 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
         ...blue,
         ...red,
         ...green,
+      },
+      fonts: {
+        extraLight: 'Manrope_200ExtraLight',
+        light: 'Manrope_300Light',
+        regular: 'Manrope_400Regular',
+        medium: 'Manrope_500Medium',
+        semiBold: 'Manrope_600SemiBold',
+        bold: 'Manrope_700Bold',
+        extraBold: 'Manrope_800ExtraBold',
+      },
+      fontSizes: {
+        h1: 96,
+        h2: 60,
+        h3: 40,
+        h4: 32,
+        h5: 24,
+        h6: 20,
+        sub1: 16,
+        sub2: 14,
+        body1: 13,
+        body2: 12,
+        tag1: 11,
+        tag2: 8,
+      },
+      lineHeights: {
+        h1: 96,
+        h2: 76,
+        h3: 56,
+        h4: 40,
+        h5: 32,
+        h6: 28,
+        sub1: 24,
+        sub2: 22,
+        body1: 24,
+        body2: 20,
+        tag1: 18,
+        tag2: 16,
+      },
+      letterSpacings: {
+        sub1: 0.4,
+        sub2: 0.2,
+        body2: 0.2,
+      },
+      space: {
+        0: 0,
+        1: 4,
+        2: 8,
+        3: 12,
+        4: 16,
+        5: 20,
+        6: 24,
+        7: 28,
+        8: 32,
+        9: 36,
+        10: 40,
       },
     },
     utils: {
@@ -49,6 +105,12 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
       },
       // Padding
       p: (value: Stitches.PropertyValue<'padding'>) => ({ padding: value }),
+      pv: (value: Stitches.PropertyValue<'paddingVertical'>) => ({
+        paddingVertical: value,
+      }),
+      ph: (value: Stitches.PropertyValue<'paddingHorizontal'>) => ({
+        paddingHorizontal: value,
+      }),
       pt: (value: Stitches.PropertyValue<'paddingTop'>) => ({
         paddingTop: value,
       }),
@@ -73,6 +135,12 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
       // Margin
       m: (value: Stitches.PropertyValue<'margin'>) => ({
         margin: value,
+      }),
+      mv: (value: Stitches.PropertyValue<'marginVertical'>) => ({
+        marginVertical: value,
+      }),
+      mh: (value: Stitches.PropertyValue<'marginHorizontal'>) => ({
+        marginHorizontal: value,
       }),
       mt: (value: Stitches.PropertyValue<'marginTop'>) => ({
         marginTop: value,
@@ -166,3 +234,5 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
       }),
     },
   });
+
+export type CSS = Stitches.CSS<typeof config>;

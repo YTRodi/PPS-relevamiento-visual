@@ -1,15 +1,26 @@
+/* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Animated, StyleSheet, View, Text } from 'react-native';
+import { Animated } from 'react-native';
 
 import * as SplashScreen from 'expo-splash-screen';
 import Constants from 'expo-constants';
 import AppLoading from 'expo-app-loading';
 import { Asset } from 'expo-asset';
+import {
+  useFonts,
+  Manrope_200ExtraLight,
+  Manrope_300Light,
+  Manrope_400Regular,
+  Manrope_500Medium,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
+} from '@expo-google-fonts/manrope';
 
 import { useFadeAnimation } from '../../hooks';
 import { BASE_FADE_ANIMATION_TIME } from '../../hooks/useFadeAnimation';
+import { Flex, H4 } from '../../components';
 
-const defaultBackgroundColor = '#F4900C';
 const defaultResizeMode = 'contain';
 const sourceIcon = require('../../../assets/images/icon.png');
 
@@ -21,6 +32,15 @@ interface Props {
 
 function AnimatedAppLoader(props: Props) {
   const [isSplashReady, setIsSplashReady] = useState(false);
+  const [fontsLoaded] = useFonts({
+    Manrope_200ExtraLight,
+    Manrope_300Light,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+    Manrope_700Bold,
+    Manrope_800ExtraBold,
+  });
 
   const startAsync = useCallback(
     () => Asset.fromModule(sourceIcon).downloadAsync(),
@@ -32,7 +52,7 @@ function AnimatedAppLoader(props: Props) {
     await SplashScreen.hideAsync();
   }, []);
 
-  if (!isSplashReady) {
+  if (!isSplashReady && !fontsLoaded) {
     return (
       <AppLoading
         autoHideSplash={false}
@@ -72,50 +92,41 @@ function AnimatedSplashScreen({ children }: Props) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Flex css={{ flex: 1 }}>
       {isAppReady && children}
       {!isSplashAnimationComplete && (
-        <Animated.View
-          style={[StyleSheet.absoluteFill, styles.splashContainer]}
+        <Flex
+          direction='column'
+          justify='around'
+          align='center'
+          css={{
+            flex: 1,
+            bc: Constants.manifest?.splash?.backgroundColor,
+          }}
         >
           <Animated.View style={fadeAnimation.style}>
-            <Text style={styles.splashText}>Rodi Yago</Text>
+            <H4>Rodi Yago</H4>
           </Animated.View>
           <Animated.Image
             source={sourceIcon}
             onLoadStart={onLoadStart}
             onLoadEnd={onLoadEnd}
             fadeDuration={0}
-            style={{ ...styles.splashImage, ...fadeAnimation.style }}
+            style={{
+              width: 100,
+              height: 100,
+              resizeMode:
+                Constants?.manifest?.splash?.resizeMode || defaultResizeMode,
+              ...fadeAnimation.style,
+            }}
           />
           <Animated.View style={fadeAnimation.style}>
-            <Text style={styles.splashText}>División 4B</Text>
+            <H4>División 4B</H4>
           </Animated.View>
-        </Animated.View>
+        </Flex>
       )}
-    </View>
+    </Flex>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  splashContainer: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor:
-      Constants.manifest?.splash?.backgroundColor || defaultBackgroundColor,
-  },
-  splashText: {
-    textAlign: 'center',
-  },
-  splashImage: {
-    width: 100,
-    height: 100,
-    resizeMode: Constants?.manifest?.splash?.resizeMode || defaultResizeMode,
-  },
-});
 
 export default AnimatedAppLoader;
