@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { Body1, Flex, Sub1 } from './components';
+import { Body1, Button, Flex, Sub1 } from './components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // eslint-disable-next-line no-unused-vars
@@ -17,44 +17,64 @@ function UnauthenticatedApp() {
 
   return (
     <Flex direction='column' css={{ flex: 1, pt: top }}>
-      <Flex direction='column' align='center' css={{ mt: 52 }}>
-        <Sub1 css={{ mb: '$1' }}>Bienvenido a</Sub1>
-        <Sub1>Relevamiento Visual App</Sub1>
-        <Sub1>ICONO</Sub1>
-      </Flex>
+      <Flex direction='column' css={{ flex: 1, mh: '$16' }}>
+        <Flex direction='column' align='center' css={{ mt: 52 }}>
+          <Sub1 css={{ mb: '$16' }}>Bienvenido a</Sub1>
+          <Sub1>Relevamiento Visual App</Sub1>
+          <Sub1>ICONO</Sub1>
+        </Flex>
 
-      <Flex direction='column' css={{ bc: '$red6', mh: '$4', mt: 56 }}>
-        <Sub1 weight='bold'>Log In</Sub1>
-        <Sub1 weight='bold' css={{ mt: '$6', borderWidth: 1, height: 48 }}>
-          Input 1
-        </Sub1>
-        <Sub1 weight='bold' css={{ mt: '$2', borderWidth: 1, height: 48 }}>
-          Input 2
-        </Sub1>
-      </Flex>
+        <Flex direction='column' css={{ bc: '$red6', mt: 56 }}>
+          <Sub1 weight='bold'>Inicio de sesión</Sub1>
+          <Sub1
+            weight='bold'
+            css={{ mt: '$24', borderWidth: 1, height: '$7xl' }}
+          >
+            Input 1
+          </Sub1>
+          <Sub1
+            weight='bold'
+            css={{ mt: '$8', borderWidth: 1, height: '$7xl' }}
+          >
+            Input 2
+          </Sub1>
+        </Flex>
 
-      <Flex justify='center' css={{ mt: '$6', borderWidth: 1 }}>
-        <Sub1 weight='bold' css={{ borderWidth: 1, height: 48 }}>
-          Iniciar sesión
-        </Sub1>
-      </Flex>
+        <Flex justify='center' css={{ mt: '$24', borderWidth: 0 }}>
+          <Button
+            text='Ingresar'
+            full
+            loading={false}
+            disabled={false}
+            onPress={() => console.log('hola mundo')}
+          />
+        </Flex>
 
-      <Flex
-        direction='column'
-        align='center'
-        css={{ flex: 1, mt: 88, bc: '$blue6' }}
-      >
-        <Body1>Iniciar sesión como</Body1>
-        <Flex css={{ borderWidth: 1, borderColor: 'red', mt: '$4' }}>
-          <Sub1 css={{ borderWidth: 1, p: 10 }}>Scott</Sub1>
-          <Sub1 css={{ borderWidth: 1, p: 10, mh: 16 }}>Maggie</Sub1>
-          <Sub1 css={{ borderWidth: 1, p: 10 }}>Luna</Sub1>
+        <Flex direction='column' align='center' css={{ flex: 1, mt: 88 }}>
+          <Body1>Iniciar sesión como</Body1>
+          <Flex
+            direction='column'
+            justify='evenly'
+            align='center'
+            css={{ flex: 1, borderWidth: 0 }}
+          >
+            <Flex>
+              <Button full text='Scott' variant='outlined' onPress={() => {}} />
+            </Flex>
+            <Flex>
+              <Button
+                full
+                text='Maggie'
+                variant='outlined'
+                onPress={() => {}}
+              />
+            </Flex>
+            <Flex>
+              <Button full text='Luna' variant='outlined' onPress={() => {}} />
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
-
-      {/* <Flex justify='center'>
-        <Body1>No tienes cuenta? Regístrate!</Body1>
-      </Flex> */}
     </Flex>
   );
 
