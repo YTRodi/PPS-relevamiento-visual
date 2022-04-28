@@ -51,6 +51,9 @@ const Flex = styled('View', {
       around: {
         justifyContent: 'space-around',
       },
+      evenly: {
+        justifyContent: 'space-evenly',
+      },
     },
     wrap: {
       noWrap: {
