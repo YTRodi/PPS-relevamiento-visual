@@ -2,11 +2,20 @@ import * as Yup from 'yup';
 import { useEffect } from 'react';
 import { Animated } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { AppLogo, Body1, Button, Flex, Sub1, TextInput } from './components';
+import { useToast } from 'react-native-toast-notifications';
+import { useFormik } from 'formik';
+import { useAsync, useFadeAnimation } from './hooks';
+import { useAuth } from './context/AuthProvider';
+import { mapAuthError } from './helpers';
+import {
+  AppLogo,
+  Button,
+  Flex,
+  HardcodedPersons,
+  Sub1,
+  TextInput,
+} from './components';
 
-import { useFadeAnimation } from './hooks';
-
-// eslint-disable-next-line no-unused-vars
 const AuthSchema = Yup.object().shape({
   email: Yup.string()
     .email('Correo electrónico inválido')
@@ -16,16 +25,39 @@ const AuthSchema = Yup.object().shape({
     .required('La contraseña es obligatoria'),
 });
 
+const initialValues = { email: 'maggier@yopmail.com', password: 'Password1' };
+
 function UnauthenticatedApp() {
   const { show, style } = useFadeAnimation();
+  const { login } = useAuth();
+  const { isLoading, isError, error, run } = useAsync();
+  const toast = useToast();
+  const {
+    values: formValues,
+    errors: formErrors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isValidating,
+    isValid,
+    setValues,
+  } = useFormik({
+    initialValues,
+    validationSchema: AuthSchema,
+    onSubmit: formValues => run(login(formValues)),
+  });
+
   useEffect(() => {
-    // TODO: ejecutar el hide() cuando nos logeamos correctamente
-    // TODO: ejecutar el hide() cuando nos logeamos correctamente
-    // TODO: ejecutar el hide() cuando nos logeamos correctamente
+    if (isError) {
+      const errorMessage = mapAuthError(error);
+      toast.show(errorMessage, { type: 'danger' });
+    }
+  }, [isError, error]);
+
+  useEffect(() => {
     show();
   }, []);
-
-  // TODO [IMPORTANTE]: botones blancos ? SI.
 
   const commonCss = { color: '$whiteA12' };
 
@@ -50,142 +82,43 @@ function UnauthenticatedApp() {
               returnKeyType='next'
               autoCompleteType='off'
               css={{ marginBottom: '$8' }}
+              value={formValues.email}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              error={touched.email && Boolean(formErrors.email)}
+              helperText={formErrors.email}
             />
             <TextInput
               secureTextEntry
               placeholder='Contraseña'
               autoCompleteType='off'
+              value={formValues.password}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              error={touched.password && Boolean(formErrors.password)}
+              helperText={formErrors.password}
             />
           </Flex>
 
           <Flex justify='center' css={{ mt: '$16' }}>
             <Button
-              // variant='outlined'
               text='Ingresar'
               full
-              loading={false}
-              disabled={false}
-              onPress={() => console.log('hola mundo')}
+              loading={isLoading || isValidating}
+              disabled={isLoading || isValidating || !isValid}
+              onPress={() => handleSubmit()}
             />
           </Flex>
 
-          <Flex direction='column' align='center' css={{ mt: '$16' }}>
-            <Body1 css={{ ...commonCss }}>Iniciar sesión como</Body1>
-            <Flex css={{ pt: '$16' }}>
-              <Flex css={{ flex: 1 }}>
-                <Button
-                  full
-                  text='Scott'
-                  variant='outlined'
-                  onPress={() => {}}
-                />
-              </Flex>
-              <Flex css={{ flex: 1, mh: '$16' }}>
-                <Button
-                  full
-                  text='Maggie'
-                  variant='outlined'
-                  onPress={() => {}}
-                />
-              </Flex>
-              <Flex css={{ flex: 1 }}>
-                <Button
-                  full
-                  text='Luna'
-                  variant='outlined'
-                  onPress={() => {}}
-                />
-              </Flex>
-            </Flex>
-          </Flex>
+          <HardcodedPersons
+            onSelectPerson={({ email, password }) =>
+              setValues({ email, password })
+            }
+          />
         </Flex>
       </Flex>
     </Animated.View>
   );
-
-  // return (
-  //   <View style={styles.container}>
-  //     <Image
-  //       source={require('../assets/images/background.png')}
-  //       style={styles.backgroundImage}
-  //     />
-
-  //     <View style={styles.headerContainer}>{renderHeader()}</View>
-
-  //     <View style={styles.formGroup}>
-  //       <TextInput
-  //         mode='flat'
-  //         keyboardType='email-address'
-  //         returnKeyType='next'
-  //         autoComplete={false}
-  //         autoCapitalize='none'
-  //         label='Correo electrónico'
-  //         placeholder='Correo electrónico'
-  //         value={formValues.email}
-  //         onChangeText={handleChange('email')}
-  //         onBlur={handleBlur('email')}
-  //         left={<TextInput.Icon name='email' color={getInputEmailIconColor} />}
-  //         error={Boolean(formErrors.email && touched.email)}
-  //       />
-  //       {formErrors.email && touched.email && (
-  //         <Paragraph style={styles.textError}>{formErrors.email}</Paragraph>
-  //       )}
-  //     </View>
-
-  //     <View style={styles.formGroup}>
-  //       <TextInput
-  //         mode='outlined'
-  //         secureTextEntry={hidePassword}
-  //         autoComplete={false}
-  //         autoCapitalize='none'
-  //         label='Contraseña'
-  //         placeholder='Contraseña'
-  //         value={formValues.password}
-  //         onChangeText={handleChange('password')}
-  //         onBlur={handleBlur('password')}
-  //         left={
-  //           <TextInput.Icon name='lock' color={getInputPasswordIconColor} />
-  //         }
-  //         right={
-  //           <TextInput.Icon
-  //             name={hidePassword ? 'eye' : 'eye-off'}
-  //             onPress={toggleHidePassword}
-  //             color={getInputPasswordIconColor}
-  //           />
-  //         }
-  //         error={Boolean(formErrors.password && touched.password)}
-  //       />
-  //       {formErrors.password && touched.password && (
-  //         <Paragraph style={styles.textError}>{formErrors.password}</Paragraph>
-  //       )}
-  //     </View>
-
-  //     <Button
-  //       style={styles.button}
-  //       mode='contained'
-  //       disabled={isLoading || isValidating || !isValid}
-  //       loading={isLoading || isValidating}
-  //       onPress={handleSubmit}
-  //     >
-  //       {isLoginScreen ? 'Iniciar sesión' : 'Registrarse'}
-  //     </Button>
-
-  //     <View style={styles.captionContainer}>
-  //       <Caption>
-  //         {isLoginScreen ? '¿No tienes cuenta?' : '¿Ya tienes una cuenta?'}{' '}
-  //         <Caption style={styles.captionText} onPress={reset}>
-  //           {isLoginScreen ? 'Regístrate!' : 'Inicia sesión!'}
-  //         </Caption>
-  //       </Caption>
-  //     </View>
-
-  //     <HardcodedPersons
-  //       onSelectPerson={person =>
-  //         setValues({ email: person.email, password: person.password })
-  //       }
-  //     />
-  //   </View>
-  // );
 }
 
 export default UnauthenticatedApp;

@@ -8,6 +8,7 @@ import React, {
 import { useAsync } from '../../hooks';
 import * as auth from '../../auth';
 import { FullPageErrorFallback, FullPageSpinner } from '../../components';
+import { sleep } from '../../helpers';
 
 export interface AuthContextProps {
   user: auth.User | null;
@@ -34,7 +35,7 @@ const AuthProvider: React.FC = props => {
 
   useEffect(() => {
     const appDataPromise = auth.getCurrentUser();
-    run(appDataPromise);
+    run(sleep(2000).then(() => appDataPromise));
   }, [run]);
 
   const login = useCallback(

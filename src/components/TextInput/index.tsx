@@ -1,6 +1,5 @@
 import { ComponentProps } from 'react';
 import { TextInput as TInput } from 'react-native';
-import Constants from 'expo-constants';
 import { CSS, useTheme } from '../../../stitches.config';
 import { useToggle } from '../../hooks';
 import { Flex, Sub2 } from '../Layout';
@@ -23,15 +22,12 @@ function TextInput({ label, error = false, helperText, css, ...rest }: Props) {
   return (
     <Flex direction='column' css={css}>
       {label && <Sub2 css={{ color, mb: '$4' }}>{label}</Sub2>}
-      <WrapperStyledTextInput align='center'>
+      <WrapperStyledTextInput align='center' error={error}>
         <StyledTextInput
           autoCapitalize='none'
-          selectionColor={
-            Constants.manifest?.splash?.backgroundColor || colors.whiteA12
-          }
+          selectionColor={colors.primary}
           placeholderTextColor={colors.blackA9}
           autoCorrect={false}
-          error={error}
           {...rest}
           secureTextEntry={showPassword}
         />

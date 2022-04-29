@@ -5,14 +5,6 @@ const WrapperStyledTextInput = styled(Flex, {
   backgroundColor: '$whiteA12',
   borderWidth: 2,
   borderRadius: '$m',
-});
-
-const StyledTextInput = styled('TextInput', {
-  flex: 1,
-  paddingVertical: '$8',
-  paddingHorizontal: '$12',
-  color: '$blackA12',
-  height: '$7xl',
 
   variants: {
     error: {
@@ -23,6 +15,14 @@ const StyledTextInput = styled('TextInput', {
   defaultVariants: {
     error: false,
   },
+});
+
+const StyledTextInput = styled('TextInput', {
+  flex: 1,
+  paddingVertical: '$8',
+  paddingHorizontal: '$12',
+  color: '$blackA12',
+  height: '$7xl',
 });
 
 const HelperText = styled(Body1, {});

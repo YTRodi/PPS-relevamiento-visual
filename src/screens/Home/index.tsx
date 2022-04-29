@@ -2,10 +2,10 @@
 import { ScrollView, View, StyleSheet, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToast } from 'react-native-toast-notifications';
-import { FullPageSpinner } from '../../components';
+import { Button, FullPageSpinner } from '../../components';
 import { useAsync } from '../../hooks';
 import { useAuth } from '../../context/AuthProvider';
-import { mapAuthError } from '../../helpers';
+import { mapAuthError, sleep } from '../../helpers';
 
 function Home() {
   const { bottom } = useSafeAreaInsets();
@@ -14,7 +14,7 @@ function Home() {
   const toast = useToast();
 
   if (isLoading) {
-    return <FullPageSpinner />;
+    return <FullPageSpinner title='Saliendo' />;
   }
 
   if (isError) {
@@ -27,15 +27,12 @@ function Home() {
       <View style={styles.container}>
         <Text>Información del usuario:</Text>
         <Text>{JSON.stringify(user?.providerData, null, 2)}</Text>
-        {/* TODO: pending implementation of Button component */}
-        {/* <Button
-          mode='contained'
-          onPress={() => run(logout())}
-          disabled={isLoading}
+        <Button
+          text='Salir'
           loading={isLoading}
-        >
-          Salir
-        </Button> */}
+          disabled={isLoading}
+          onPress={() => run(sleep().then(logout))}
+        />
       </View>
     </ScrollView>
   );

@@ -1,30 +1,38 @@
-import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import LottieView from 'lottie-react-native';
+import { useEffect } from 'react';
+import { Animated } from 'react-native';
+import { useFadeAnimation } from '../../hooks';
+import { Flex, Sub1 } from '../Layout';
+
+const spinnerSource = require('../../../assets/lottie/orange-loading.json');
 
 interface Props {
   title?: string;
 }
 
 function FullPageSpinner({ title }: Props) {
+  const { show, style } = useFadeAnimation();
+
+  useEffect(() => {
+    show();
+  }, []);
+
   return (
-    // TODO: implement Flex component.
-    // TODO: implement Flex component.
-    // TODO: implement Flex component.
-    <View style={styles.container}>
-      <ActivityIndicator animating />
-      {title && <Text style={styles.title}>{title}</Text>}
-    </View>
+    <Animated.View style={{ flex: 1, ...style }}>
+      <Flex
+        direction='column'
+        justify='center'
+        align='center'
+        css={{ flex: 1 }}
+      >
+        <Flex css={{ size: 150 }}>
+          <LottieView source={spinnerSource} autoPlay loop />
+        </Flex>
+
+        {title && <Sub1>{title}</Sub1>}
+      </Flex>
+    </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    marginTop: 16,
-  },
-});
 
 export default FullPageSpinner;

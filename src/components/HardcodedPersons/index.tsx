@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Separator from '../Separator';
+import Button from '../Button';
+import { Body1, Flex } from '../Layout';
 
 interface Person {
   name: string;
@@ -37,37 +37,22 @@ const HardcodedPersons = ({ onSelectPerson }: Props) => {
   );
 
   return (
-    <View>
-      <View style={styles.textContainer}>
-        <Separator />
-        <Text style={styles.text}>inicia sesión como</Text>
-        <Separator />
-      </View>
-
-      <View style={styles.buttonContainer}>
+    <Flex direction='column' align='center' css={{ mt: '$16' }}>
+      <Body1 css={{ color: '$whiteA12' }}>Iniciar sesión como</Body1>
+      <Flex css={{ pt: '$16' }}>
         {persons.map((person, index) => (
-          <Text key={index}>{person.name}</Text>
+          <Flex key={index} css={{ flex: 1, mh: index === 1 ? '$16' : '$0' }}>
+            <Button
+              full
+              text={person.name}
+              variant='outlined'
+              onPress={() => onSelectPerson(person)}
+            />
+          </Flex>
         ))}
-      </View>
-    </View>
+      </Flex>
+    </Flex>
   );
 };
-
-const styles = StyleSheet.create({
-  textContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  text: {
-    marginHorizontal: 16,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
 
 export default HardcodedPersons;
