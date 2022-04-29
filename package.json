@@ -1,5 +1,5 @@
 {
-  "name": "pps-app-2",
+  "name": "pps-relevamiento-visual",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -7,6 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build:android": "eas build -p android --profile preview",
     "eject": "expo eject",
     "lint": "eslint --fix",
     "format": "prettier --write",
