@@ -32,10 +32,10 @@ const Container = styled(Flex, {
       text: {},
       outlined: {
         borderWidth: 1,
-        borderColor: '$green8',
+        borderColor: '$primary',
       },
       default: {
-        backgroundColor: '$green8',
+        backgroundColor: '$primary',
       },
     },
   },
@@ -73,10 +73,10 @@ const Text = styled(Body1, {
     },
     variant: {
       outlined: {
-        color: '$green10',
+        color: '$primary',
       },
       text: {
-        color: '$green10',
+        color: '$primary',
       },
       default: {
         color: '$whiteA12',

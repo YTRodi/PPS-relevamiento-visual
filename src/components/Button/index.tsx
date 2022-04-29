@@ -30,7 +30,7 @@ function Button({
 
   return (
     <StyledTouchable
-      underlayColor={!isTextVariant ? colors.green4 : 'transparent'}
+      underlayColor={!isTextVariant ? colors.gray12 : 'transparent'}
       disabled={isDisabled}
       onPress={onPress}
       full={full}

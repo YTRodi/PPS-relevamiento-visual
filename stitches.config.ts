@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import {
   blackA,
   whiteA,
@@ -18,6 +19,7 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
   createStitches({
     theme: {
       colors: {
+        primary: Constants.manifest?.splash?.backgroundColor || '#fff',
         ...blackA,
         ...whiteA,
         ...gray,

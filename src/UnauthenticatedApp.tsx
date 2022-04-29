@@ -60,10 +60,11 @@ function UnauthenticatedApp() {
 
           <Flex justify='center' css={{ mt: '$16' }}>
             <Button
+              // variant='outlined'
               text='Ingresar'
               full
               loading={false}
-              disabled={!false}
+              disabled={false}
               onPress={() => console.log('hola mundo')}
             />
           </Flex>
