@@ -4,7 +4,7 @@ import { Flex, Body1 } from '../Layout';
 import Touchable from '../Touchable';
 
 const StyledTouchable = styled(Touchable, {
-  borderRadius: '$l',
+  borderRadius: '$m',
   minWidth: '$10xl',
 
   variants: {
@@ -21,7 +21,7 @@ const StyledTouchable = styled(Touchable, {
 
 const Container = styled(Flex, {
   height: '$7xl',
-  borderRadius: '$l',
+  borderRadius: '$m',
 
   variants: {
     disabled: {

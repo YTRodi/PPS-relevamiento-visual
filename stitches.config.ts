@@ -1,4 +1,5 @@
 import {
+  blackA,
   whiteA,
   gray,
   blue,
@@ -17,6 +18,7 @@ export const { styled, config, useTheme, ThemeProvider, theme, css } =
   createStitches({
     theme: {
       colors: {
+        ...blackA,
         ...whiteA,
         ...gray,
         ...blue,

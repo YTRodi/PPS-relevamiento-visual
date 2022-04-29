@@ -1,9 +1,10 @@
 import * as Yup from 'yup';
-import { Animated } from 'react-native';
-import { AppLogo, Body1, Button, Flex, Sub1 } from './components';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFadeAnimation } from './hooks';
 import { useEffect } from 'react';
+import { Animated } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { AppLogo, Body1, Button, Flex, Sub1, TextInput } from './components';
+
+import { useFadeAnimation } from './hooks';
 
 // eslint-disable-next-line no-unused-vars
 const AuthSchema = Yup.object().shape({
@@ -16,7 +17,6 @@ const AuthSchema = Yup.object().shape({
 });
 
 function UnauthenticatedApp() {
-  const { top } = useSafeAreaInsets();
   const { show, style } = useFadeAnimation();
   useEffect(() => {
     // TODO: ejecutar el hide() cuando nos logeamos correctamente
@@ -25,23 +25,14 @@ function UnauthenticatedApp() {
     show();
   }, []);
 
-  // Opción 1:
-  // TODO [IMPORTANTE]: fondo gris/negro (quizás agregar color Black en la config de stitches)
-  // TODO [IMPORTANTE]: inputs naranjas con letras negras y el caret-color del input en blanco
   // TODO [IMPORTANTE]: botones blancos ? SI.
 
   const commonCss = { color: '$whiteA12' };
 
   return (
     <Animated.View style={{ flex: 1, ...style }}>
-      <Flex
-        direction='column'
-        css={{
-          flex: 1,
-          pt: top,
-          backgroundColor: 'black',
-        }}
-      >
+      <StatusBar animated style='light' />
+      <Flex direction='column' css={{ flex: 1, backgroundColor: '$blackA12' }}>
         <Flex direction='column' css={{ flex: 1, mh: '$16' }}>
           <Flex direction='column' align='center' css={{ mt: 52 }}>
             <Sub1 css={{ ...commonCss }}>Bienvenido a</Sub1>
@@ -53,34 +44,18 @@ function UnauthenticatedApp() {
 
           <Flex direction='column' css={{ mt: '$16' }}>
             <Sub1 css={{ ...commonCss, mb: '$8' }}>Credenciales</Sub1>
-            <Sub1
-              css={{
-                mt: '$26',
-                borderWidth: 1,
-                backgroundColor: '#F4900C',
-                color: '$blackA12',
-                p: '$16',
-                borderRadius: '$l', // TODO: hacer el input con el mismo border radius que el button
-
-                // TODO: agregarle el caret-color al input con el color blanco!!!! (en el TextInput se llama "selectionColor")
-                // https://reactnative.dev/docs/textinput#selectioncolor
-                // https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color
-              }}
-            >
-              test@gmail.com
-            </Sub1>
-            <Sub1
-              css={{
-                mt: '$4',
-                borderWidth: 1,
-                backgroundColor: '#F4900C',
-                color: '$blackA12',
-                p: '$16',
-                borderRadius: '$l', // TODO: hacer el input con el mismo border radius que el button
-              }}
-            >
-              Password1
-            </Sub1>
+            <TextInput
+              keyboardType='email-address'
+              placeholder='Correo electrónico'
+              returnKeyType='next'
+              autoCompleteType='off'
+              css={{ marginBottom: '$8' }}
+            />
+            <TextInput
+              secureTextEntry
+              placeholder='Contraseña'
+              autoCompleteType='off'
+            />
           </Flex>
 
           <Flex justify='center' css={{ mt: '$16' }}>
@@ -93,13 +68,9 @@ function UnauthenticatedApp() {
             />
           </Flex>
 
-          <Flex
-            direction='column'
-            align='center'
-            css={{ mt: '$16', borderWidth: 1 }}
-          >
+          <Flex direction='column' align='center' css={{ mt: '$16' }}>
             <Body1 css={{ ...commonCss }}>Iniciar sesión como</Body1>
-            <Flex css={{ pt: '$16', borderWidth: 1 }}>
+            <Flex css={{ pt: '$16' }}>
               <Flex css={{ flex: 1 }}>
                 <Button
                   full

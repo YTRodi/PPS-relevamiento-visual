@@ -20,6 +20,7 @@ function Button({
 }: Props) {
   const { colors } = useTheme();
   const { disabled, onPress } = touchableProps;
+  const isTextVariant = variant === 'text';
   const isDisabled = disabled || loading;
 
   let spinnerColor = colors.whiteA12;
@@ -29,7 +30,7 @@ function Button({
 
   return (
     <StyledTouchable
-      underlayColor={colors.green4}
+      underlayColor={!isTextVariant ? colors.green4 : 'transparent'}
       disabled={isDisabled}
       onPress={onPress}
       full={full}
