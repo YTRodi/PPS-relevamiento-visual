@@ -35,7 +35,7 @@ const AuthProvider: React.FC = props => {
 
   useEffect(() => {
     const appDataPromise = auth.getCurrentUser();
-    run(sleep(2000).then(() => appDataPromise));
+    run(sleep().then(() => appDataPromise));
   }, [run]);
 
   const login = useCallback(

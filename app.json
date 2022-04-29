@@ -3,7 +3,7 @@
     "name": "PPS-relevamiento-visual",
     "slug": "PPS-relevamiento-visual",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "splash": {
       "backgroundColor": "#F4900C"
