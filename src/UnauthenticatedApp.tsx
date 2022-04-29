@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useEffect } from 'react';
-import { Animated } from 'react-native';
+import { Animated, Vibration } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useToast } from 'react-native-toast-notifications';
 import { useFormik } from 'formik';
@@ -25,7 +25,10 @@ const AuthSchema = Yup.object().shape({
     .required('La contraseña es obligatoria'),
 });
 
-const initialValues = { email: 'maggier@yopmail.com', password: 'Password1' };
+const initialValues = {
+  email: '',
+  password: '',
+};
 
 function UnauthenticatedApp() {
   const { show, style } = useFadeAnimation();
@@ -51,6 +54,7 @@ function UnauthenticatedApp() {
   useEffect(() => {
     if (isError) {
       const errorMessage = mapAuthError(error);
+      Vibration.vibrate(200);
       toast.show(errorMessage, { type: 'danger' });
     }
   }, [isError, error]);
