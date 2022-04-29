@@ -3,10 +3,16 @@ import { useToast } from 'react-native-toast-notifications';
 import { useAuth } from '../context/AuthProvider';
 import { useAsync } from '../hooks';
 import { Button, FullPageSpinner } from '../components';
-import { Home } from '../screens';
+import { Home, Good, Bad } from '../screens';
 import { mapAuthError, sleep } from '../helpers';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+  Home: undefined;
+  Good: undefined;
+  Bad: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParams>();
 
 function StackNavigator() {
   const { logout } = useAuth();
@@ -23,19 +29,26 @@ function StackNavigator() {
   }
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerRight: () => (
-          <Button
-            variant='text'
-            text='Salir'
-            onPress={() => run(sleep().then(logout))}
-          />
-        ),
-      }}
-    >
-      <Stack.Screen name='Home' component={Home} />
+    <Stack.Navigator initialRouteName='Home'>
+      <Stack.Screen
+        name='Home'
+        component={Home}
+        options={{
+          headerRight: () => (
+            <Button
+              variant='text'
+              text='Salir'
+              onPress={() => run(sleep().then(logout))}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name='Good'
+        component={Good}
+        options={{ title: 'Cosas lindas del edificio' }}
+      />
+      <Stack.Screen name='Bad' component={Bad} />
     </Stack.Navigator>
   );
 }
