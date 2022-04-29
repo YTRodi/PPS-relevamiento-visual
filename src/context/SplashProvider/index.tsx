@@ -19,9 +19,8 @@ import {
 
 import { useFadeAnimation } from '../../hooks';
 import { BASE_FADE_ANIMATION_TIME } from '../../hooks/useFadeAnimation';
-import { Flex, H4 } from '../../components';
+import { AppLogo, Flex, H4 } from '../../components';
 
-const defaultResizeMode = 'contain';
 const sourceIcon = require('../../../assets/images/icon.png');
 
 SplashScreen.preventAutoHideAsync().catch(console.error);
@@ -107,18 +106,11 @@ function AnimatedSplashScreen({ children }: Props) {
           <Animated.View style={fadeAnimation.style}>
             <H4>Rodi Yago</H4>
           </Animated.View>
-          <Animated.Image
-            source={sourceIcon}
+          <AppLogo
+            animated
             onLoadStart={onLoadStart}
             onLoadEnd={onLoadEnd}
-            fadeDuration={0}
-            style={{
-              width: 100,
-              height: 100,
-              resizeMode:
-                Constants?.manifest?.splash?.resizeMode || defaultResizeMode,
-              ...fadeAnimation.style,
-            }}
+            styles={fadeAnimation.style}
           />
           <Animated.View style={fadeAnimation.style}>
             <H4>División 4B</H4>

@@ -1,6 +1,9 @@
 import * as Yup from 'yup';
-import { Body1, Button, Flex, Sub1 } from './components';
+import { Animated } from 'react-native';
+import { AppLogo, Body1, Button, Flex, Sub1 } from './components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFadeAnimation } from './hooks';
+import { useEffect } from 'react';
 
 // eslint-disable-next-line no-unused-vars
 const AuthSchema = Yup.object().shape({
@@ -14,68 +17,118 @@ const AuthSchema = Yup.object().shape({
 
 function UnauthenticatedApp() {
   const { top } = useSafeAreaInsets();
+  const { show, style } = useFadeAnimation();
+  useEffect(() => {
+    // TODO: ejecutar el hide() cuando nos logeamos correctamente
+    // TODO: ejecutar el hide() cuando nos logeamos correctamente
+    // TODO: ejecutar el hide() cuando nos logeamos correctamente
+    show();
+  }, []);
+
+  // Opción 1:
+  // TODO [IMPORTANTE]: fondo gris/negro (quizás agregar color Black en la config de stitches)
+  // TODO [IMPORTANTE]: inputs naranjas con letras negras y el caret-color del input en blanco
+  // TODO [IMPORTANTE]: botones blancos ? SI.
+
+  const commonCss = { color: '$whiteA12' };
 
   return (
-    <Flex direction='column' css={{ flex: 1, pt: top }}>
-      <Flex direction='column' css={{ flex: 1, mh: '$16' }}>
-        <Flex direction='column' align='center' css={{ mt: 52 }}>
-          <Sub1 css={{ mb: '$16' }}>Bienvenido a</Sub1>
-          <Sub1>Relevamiento Visual App</Sub1>
-          <Sub1>ICONO</Sub1>
-        </Flex>
+    <Animated.View style={{ flex: 1, ...style }}>
+      <Flex
+        direction='column'
+        css={{
+          flex: 1,
+          pt: top,
+          backgroundColor: 'black',
+        }}
+      >
+        <Flex direction='column' css={{ flex: 1, mh: '$16' }}>
+          <Flex direction='column' align='center' css={{ mt: 52 }}>
+            <Sub1 css={{ ...commonCss }}>Bienvenido a</Sub1>
+            <Sub1 css={{ mb: '$16', ...commonCss }}>
+              Relevamiento Visual App
+            </Sub1>
+            <AppLogo />
+          </Flex>
 
-        <Flex direction='column' css={{ bc: '$red6', mt: 56 }}>
-          <Sub1 weight='bold'>Inicio de sesión</Sub1>
-          <Sub1
-            weight='bold'
-            css={{ mt: '$24', borderWidth: 1, height: '$7xl' }}
-          >
-            Input 1
-          </Sub1>
-          <Sub1
-            weight='bold'
-            css={{ mt: '$8', borderWidth: 1, height: '$7xl' }}
-          >
-            Input 2
-          </Sub1>
-        </Flex>
+          <Flex direction='column' css={{ mt: '$16' }}>
+            <Sub1 css={{ ...commonCss, mb: '$8' }}>Credenciales</Sub1>
+            <Sub1
+              css={{
+                mt: '$26',
+                borderWidth: 1,
+                backgroundColor: '#F4900C',
+                color: '$blackA12',
+                p: '$16',
+                borderRadius: '$l', // TODO: hacer el input con el mismo border radius que el button
 
-        <Flex justify='center' css={{ mt: '$24', borderWidth: 0 }}>
-          <Button
-            text='Ingresar'
-            full
-            loading={false}
-            disabled={false}
-            onPress={() => console.log('hola mundo')}
-          />
-        </Flex>
+                // TODO: agregarle el caret-color al input con el color blanco!!!! (en el TextInput se llama "selectionColor")
+                // https://reactnative.dev/docs/textinput#selectioncolor
+                // https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color
+              }}
+            >
+              test@gmail.com
+            </Sub1>
+            <Sub1
+              css={{
+                mt: '$4',
+                borderWidth: 1,
+                backgroundColor: '#F4900C',
+                color: '$blackA12',
+                p: '$16',
+                borderRadius: '$l', // TODO: hacer el input con el mismo border radius que el button
+              }}
+            >
+              Password1
+            </Sub1>
+          </Flex>
 
-        <Flex direction='column' align='center' css={{ flex: 1, mt: 88 }}>
-          <Body1>Iniciar sesión como</Body1>
+          <Flex justify='center' css={{ mt: '$16' }}>
+            <Button
+              text='Ingresar'
+              full
+              loading={false}
+              disabled={!false}
+              onPress={() => console.log('hola mundo')}
+            />
+          </Flex>
+
           <Flex
             direction='column'
-            justify='evenly'
             align='center'
-            css={{ flex: 1, borderWidth: 0 }}
+            css={{ mt: '$16', borderWidth: 1 }}
           >
-            <Flex>
-              <Button full text='Scott' variant='outlined' onPress={() => {}} />
-            </Flex>
-            <Flex>
-              <Button
-                full
-                text='Maggie'
-                variant='outlined'
-                onPress={() => {}}
-              />
-            </Flex>
-            <Flex>
-              <Button full text='Luna' variant='outlined' onPress={() => {}} />
+            <Body1 css={{ ...commonCss }}>Iniciar sesión como</Body1>
+            <Flex css={{ pt: '$16', borderWidth: 1 }}>
+              <Flex css={{ flex: 1 }}>
+                <Button
+                  full
+                  text='Scott'
+                  variant='outlined'
+                  onPress={() => {}}
+                />
+              </Flex>
+              <Flex css={{ flex: 1, mh: '$16' }}>
+                <Button
+                  full
+                  text='Maggie'
+                  variant='outlined'
+                  onPress={() => {}}
+                />
+              </Flex>
+              <Flex css={{ flex: 1 }}>
+                <Button
+                  full
+                  text='Luna'
+                  variant='outlined'
+                  onPress={() => {}}
+                />
+              </Flex>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </Animated.View>
   );
 
   // return (
