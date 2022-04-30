@@ -48,7 +48,11 @@ function StackNavigator() {
         component={Good}
         options={{ title: 'Cosas lindas del edificio' }}
       />
-      <Stack.Screen name='Bad' component={Bad} />
+      <Stack.Screen
+        name='Bad'
+        component={Bad}
+        options={{ title: 'Cosas feas del edificio' }}
+      />
     </Stack.Navigator>
   );
 }
