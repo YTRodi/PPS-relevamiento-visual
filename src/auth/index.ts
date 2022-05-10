@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 interface User extends firebaseUser {}
 interface AuthProps {
@@ -18,18 +19,19 @@ interface AuthProps {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyDx308CoHAHelF5J6hL3nf0jEmwj7CWCEc',
-  authDomain: 'pps-app-2.firebaseapp.com',
-  projectId: 'pps-app-2',
-  storageBucket: 'pps-app-2.appspot.com',
-  messagingSenderId: '301523712337',
-  appId: '1:301523712337:web:a9ec266b165d7d0968bb70',
-  measurementId: 'G-KBWRWW3Y7E',
+  apiKey: 'AIzaSyBpcxG1kRjyJDyqShVOaJDZgSNuSB5RM2w',
+  authDomain: 'pps-relevamiento-visual.firebaseapp.com',
+  projectId: 'pps-relevamiento-visual',
+  storageBucket: 'pps-relevamiento-visual.appspot.com',
+  messagingSenderId: '47927555016',
+  appId: '1:47927555016:web:1450ad36ee364bfb9306fd',
+  measurementId: 'G-1ZT4X4KH7Y',
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 function getCurrentUser() {
   return new Promise<User | null>((resolve, reject) => {
@@ -57,6 +59,8 @@ function logout() {
 }
 
 export {
+  app,
+  db,
   AuthError,
   AuthErrorCodes,
   User,
