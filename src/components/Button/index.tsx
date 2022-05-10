@@ -34,6 +34,7 @@ function Button({
       disabled={isDisabled}
       onPress={onPress}
       full={full}
+      {...touchableProps}
     >
       <Container
         align='center'

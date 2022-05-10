@@ -6,6 +6,7 @@ import UnauthenticatedApp from './src/UnauthenticatedApp';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['AsyncStorage']);
+LogBox.ignoreLogs(['Setting a timer']);
 
 export default function App() {
   return (
