@@ -30,7 +30,6 @@ interface Props {
 }
 
 function AnimatedAppLoader(props: Props) {
-  const [isSplashReady, setIsSplashReady] = useState(false);
   const [fontsLoaded] = useFonts({
     Manrope_200ExtraLight,
     Manrope_300Light,
@@ -47,11 +46,10 @@ function AnimatedAppLoader(props: Props) {
   );
 
   const onFinish = useCallback(async () => {
-    setIsSplashReady(true);
     await SplashScreen.hideAsync();
   }, []);
 
-  if (!isSplashReady && !fontsLoaded) {
+  if (!fontsLoaded) {
     return (
       <AppLoading
         autoHideSplash={false}
