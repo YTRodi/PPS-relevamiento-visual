@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Button from '../Button';
-import { Body1, Flex } from '../Layout';
+import { Flex, H6 } from '../Layout';
 
 interface Person {
   // id: number;
@@ -48,8 +48,8 @@ const HardcodedPersons = ({ onSelectPerson }: Props) => {
   );
 
   return (
-    <Flex direction='column' align='center' css={{ mt: '$16' }}>
-      <Body1 css={{ color: '$whiteA12' }}>Iniciar sesión como</Body1>
+    <Flex direction='column' align='center' css={{ mt: '$32' }}>
+      <H6 css={{ color: '$whiteA12' }}>Iniciar sesión como</H6>
       <Flex css={{ pt: '$16' }}>
         {persons.map((person, index) => (
           <Flex key={index} css={{ flex: 1 }}>
